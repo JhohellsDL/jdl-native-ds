@@ -1,0 +1,54 @@
+{
+  "name": "jdl-native-ds",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.js",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "storybook": "cross-env STORYBOOK_ENABLED=true STORYBOOK_SERVER=false STORYBOOK_DISABLE_TELEMETRY=true expo start",
+    "storybook:android": "cross-env STORYBOOK_ENABLED=true STORYBOOK_SERVER=false STORYBOOK_DISABLE_TELEMETRY=true expo start --android",
+    "storybook:ios": "cross-env STORYBOOK_ENABLED=true STORYBOOK_SERVER=false STORYBOOK_DISABLE_TELEMETRY=true expo start --ios",
+    "storybook:web": "cross-env STORYBOOK_ENABLED=true STORYBOOK_SERVER=false STORYBOOK_DISABLE_TELEMETRY=true expo start --web",
+    "typecheck": "sb-rn-get-stories && tsc --noEmit",
+    "check:themes": "node --experimental-strip-types --test checks/themes.test.ts",
+    "build:web": "expo export --platform web",
+    "build:storybook:web": "cross-env STORYBOOK_ENABLED=true STORYBOOK_SERVER=false STORYBOOK_DISABLE_TELEMETRY=true expo export --platform web --output-dir dist-storybook"
+  },
+  "dependencies": {
+    "@jdl/native-ds": "0.1.0",
+    "@expo/metro-runtime": "~6.1.2",
+    "@gorhom/bottom-sheet": "^5.2.6",
+    "@react-native-community/datetimepicker": "8.4.4",
+    "@react-native-community/slider": "5.0.1",
+    "expo": "~54.0.38",
+    "expo-linear-gradient": "~15.0.8",
+    "expo-status-bar": "~3.0.9",
+    "lucide-react-native": "1.70.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-gesture-handler": "~2.28.0",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-svg": "15.12.1",
+    "react-native-web": "^0.21.0",
+    "react-native-worklets": "0.5.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-ondevice-controls": "10.7.1",
+    "@storybook/react-native": "10.7.1",
+    "@types/react": "~19.1.10",
+    "cross-env": "^7.0.3",
+    "storybook": "10.6.6",
+    "typescript": "~5.9.2"
+  }
+}

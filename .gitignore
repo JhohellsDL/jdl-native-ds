@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+dist/
+dist-storybook/
+dist-android/
+dist-ios/
+.rnstorybook/storybook.requires.ts
+android/
+ios/
+*.tgz
+.DS_Store
