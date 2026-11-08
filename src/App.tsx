@@ -1,6 +1,5 @@
 import { useState, type ComponentType } from 'react';
-import { Pressable, ScrollView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { SafeAreaProvider, SafeAreaView, initialWindowMetrics } from 'react-native-safe-area-context';
+import { Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { ArrowUpRight, Component, HeartPulse, Layers3, Moon, Wallet, type LucideIcon } from 'lucide-react-native';
 import { Badge, Text, ThemeProvider, paletteNames, useTheme, type Mode, type PaletteName } from '@jdl/native-ds';
 import { ComponentCatalog } from './ComponentCatalog';
@@ -104,11 +103,9 @@ export default function App() {
   const [palette, setPalette] = useState<PaletteName>('cobalt');
   const [mode, setMode] = useState<Mode>('light');
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <ThemeProvider palette={palette} mode={mode}>
-        <Laboratory onPalette={setPalette} onMode={setMode} />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <ThemeProvider palette={palette} mode={mode}>
+      <Laboratory onPalette={setPalette} onMode={setMode} />
+    </ThemeProvider>
   );
 }
 

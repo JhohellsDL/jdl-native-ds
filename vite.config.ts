@@ -9,10 +9,24 @@ export default defineConfig({
     __DEV__: JSON.stringify(true),
   },
   resolve: {
-    alias: {
-      'react-native': 'react-native-web',
-      '@jdl/native-ds': path.resolve(__dirname, 'packages/ui/src'),
-    },
+    alias: [
+      {
+        find: 'react-native/Libraries/Utilities/codegenNativeComponent',
+        replacement: path.resolve(__dirname, 'src/shims/codegenNativeComponent.js'),
+      },
+      {
+        find: /^react-native$/,
+        replacement: path.resolve(__dirname, 'src/shims/reactNativeWeb.js'),
+      },
+      {
+        find: '@jdl/native-ds',
+        replacement: path.resolve(__dirname, 'packages/ui/src'),
+      },
+      {
+        find: 'buffer',
+        replacement: 'buffer/',
+      },
+    ],
     extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.tsx', '.ts', '.jsx', '.js'],
   },
 });
