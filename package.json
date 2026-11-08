@@ -11,6 +11,7 @@
     "start": "vite",
     "build": "pnpm --filter @jdl/native-ds build",
     "build:ui": "pnpm --filter @jdl/native-ds build",
+    "pack:ui": "pnpm --filter @jdl/native-ds pack",
     "build:lab": "vite build",
     "check:themes": "node --experimental-strip-types --test checks/themes.test.ts",
     "typecheck": "tsc --noEmit"
