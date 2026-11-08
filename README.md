@@ -91,12 +91,24 @@ jdl-native-ds/
 │       │   └── TextField.tsx   # Input de texto con validación y estados
 │       └── tsconfig.json       # Configuración de compilación del paquete
 ├── src/                        # Laboratorio interactivo (React Native Web)
-│   ├── App.tsx                 # Shell del laboratorio y navegación
+│   ├── App.tsx                 # Shell del laboratorio, navegación y ErrorBoundary
 │   ├── ComponentCatalog.tsx    # Catálogo visual de tokens y componentes
-│   └── screens.tsx             # Pantallas de demostración
+│   ├── ThemeControls.tsx       # Controles dinámicos de paleta y apariencia (claro/oscuro)
+│   ├── screens.tsx             # Pantallas de demostración (Salud, Billetera, Descanso)
+│   └── shims/                  # Shims de compatibilidad navegador/web
 ├── checks/                     # Pruebas de contraste y accesibilidad WCAG
-└── vite.config.ts              # Configuración ultraligera de Vite
+├── index.html                  # Entry point HTML con visor de diagnóstico de errores
+└── vite.config.ts              # Configuración de Vite con aliases de React Native Web y SVG
 ```
+
+---
+
+## 🌐 Compatibilidad Web & Laboratorio
+
+El laboratorio corre sobre **Vite** mapeando primitivas de React Native a la web mediante **React Native Web**:
+* **Resolución SVG**: Mapeo transparente de `react-native-svg` a su implementación web nativa (`ReactNativeSVG.web.js`) para compatibilidad directa con iconos (`lucide-react-native`) y gradientes SVG.
+* **Seguridad y Diagnóstico**: Integración de `ErrorBoundary` en React y capturadores globales en `index.html` para diagnóstico inmediato de errores en runtime sin pantallas en blanco silenciosas.
+* **Optimización de dependencias**: Configuración de `optimizeDeps` con extensiones de plataforma (`.web.tsx`, `.web.ts`, `.web.js`) para recargas instantáneas.
 
 ---
 

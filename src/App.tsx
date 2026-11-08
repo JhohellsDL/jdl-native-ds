@@ -1,4 +1,4 @@
-import { useState, type ComponentType } from 'react';
+import { useState, Component as ReactComponent, type ComponentType, type ReactNode } from 'react';
 import { Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { ArrowUpRight, Component, HeartPulse, Layers3, Moon, Wallet, type LucideIcon } from 'lucide-react-native';
 import { Badge, Text, ThemeProvider, paletteNames, useTheme, type Mode, type PaletteName } from '@jdl/native-ds';
@@ -99,12 +99,40 @@ function Laboratory({ onPalette, onMode }: {
   );
 }
 
+class ErrorBoundary extends ReactComponent<{ children: ReactNode }, { error: Error | null }> {
+  state: { error: Error | null } = { error: null };
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+  render() {
+    if (this.state.error) {
+      const err = this.state.error as Error;
+      return (
+        <SafeAreaView style={{ flex: 1, padding: 32, justifyContent: 'center', backgroundColor: '#0f172a' }}>
+          <Text style={{ fontSize: 20, fontWeight: '700', color: '#f87171', marginBottom: 12 }}>
+            Error al renderizar el laboratorio
+          </Text>
+          <Text style={{ fontSize: 14, color: '#e2e8f0', marginBottom: 8 }}>
+            {err.message}
+          </Text>
+          <Text style={{ fontSize: 12, color: '#94a3b8', fontFamily: 'monospace' }}>
+            {err.stack}
+          </Text>
+        </SafeAreaView>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default function App() {
   const [palette, setPalette] = useState<PaletteName>('cobalt');
   const [mode, setMode] = useState<Mode>('light');
   return (
     <ThemeProvider palette={palette} mode={mode}>
-      <Laboratory onPalette={setPalette} onMode={setMode} />
+      <ErrorBoundary>
+        <Laboratory onPalette={setPalette} onMode={setMode} />
+      </ErrorBoundary>
     </ThemeProvider>
   );
 }

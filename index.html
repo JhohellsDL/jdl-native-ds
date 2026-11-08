@@ -14,6 +14,22 @@
         flex-direction: column;
       }
     </style>
+    <script>
+      window.addEventListener('error', function (e) {
+        var el = document.getElementById('debug-error') || document.createElement('pre');
+        el.id = 'debug-error';
+        el.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:#18181b;color:#f87171;padding:24px;z-index:999999;font-size:14px;white-space:pre-wrap;overflow:auto;font-family:monospace;';
+        el.textContent = '❌ ERROR: ' + e.message + '\n\n' + (e.error && e.error.stack ? e.error.stack : '');
+        document.body.appendChild(el);
+      });
+      window.addEventListener('unhandledrejection', function (e) {
+        var el = document.getElementById('debug-error') || document.createElement('pre');
+        el.id = 'debug-error';
+        el.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:#18181b;color:#f87171;padding:24px;z-index:999999;font-size:14px;white-space:pre-wrap;overflow:auto;font-family:monospace;';
+        el.textContent = '❌ UNHANDLED REJECTION:\n' + (e.reason && e.reason.stack ? e.reason.stack : e.reason);
+        document.body.appendChild(el);
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
