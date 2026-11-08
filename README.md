@@ -11,22 +11,22 @@ El repositorio contiene:
 
 ## 🚀 Arranque rápido del laboratorio
 
-Usa Node.js 22 LTS o superior y npm. Desde la raíz del repositorio:
+Usa Node.js 22 LTS o superior y pnpm. Desde la raíz del repositorio:
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Abre automáticamente en `http://localhost:5173`. Podrás explorar el catálogo completo de componentes y las pantallas interactivas de demostración (Salud, Billetera, Descanso) con cambio dinámico de tema y modo (Claro / Oscuro).
 
 | Comando | Acción |
 | --- | --- |
-| `npm run dev` / `npm start` | Inicia el laboratorio web con recarga instantánea (< 1s) |
-| `npm run build` | Compila la librería `@jdl/native-ds` a `packages/ui/dist` |
-| `npm run build:lab` | Genera el bundle de producción web del laboratorio en `dist/` |
-| `npm run check:themes` | Ejecuta la suite de verificación de contrastes en terminal |
-| `npm run typecheck` | Comprueba tipos con TypeScript en todo el monorepo |
+| `pnpm dev` / `pnpm start` | Inicia el laboratorio web con recarga instantánea (< 1s) |
+| `pnpm build` | Compila la librería `@jdl/native-ds` a `packages/ui/dist` |
+| `pnpm build:lab` | Genera el bundle de producción web del laboratorio en `dist/` |
+| `pnpm check:themes` | Ejecuta la suite de verificación de contrastes en terminal |
+| `pnpm typecheck` | Comprueba tipos con TypeScript en todo el monorepo |
 
 ---
 
@@ -39,16 +39,18 @@ El paquete `@jdl/native-ds` es **100% agnóstico**: funciona en proyectos de **R
 Para generar un tarball local desde el monorepo:
 
 ```bash
-npm run build
-npm pack --workspace @jdl/native-ds
+pnpm build
+pnpm --filter @jdl/native-ds pack
 ```
 
 En la app que consumirá el diseño:
 
 ```bash
-npm install /ruta/a/jdl-native-ds-0.1.0.tgz
+pnpm add /ruta/a/jdl-native-ds-0.1.0.tgz
+# o con npm:
+# npm install /ruta/a/jdl-native-ds-0.1.0.tgz
 # o cuando esté publicado en npm:
-# npm install @jdl/native-ds
+# pnpm add @jdl/native-ds
 ```
 
 ### 2. Implementación
