@@ -1,9 +1,9 @@
 import { useState, Component as ReactComponent, type ComponentType, type ReactNode } from 'react';
 import { Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
-import { ArrowUpRight, Component, HeartPulse, Layers3, Moon, Wallet, type LucideIcon } from 'lucide-react-native';
+import { ArrowUpRight, Battery, Component, HeartPulse, Layers3, Monitor, Moon, Smartphone, Wallet, Wifi, type LucideIcon } from 'lucide-react-native';
 import { Badge, Text, ThemeProvider, paletteNames, useTheme, type Mode, type PaletteName } from '@jdl/native-ds';
 import { ComponentCatalog } from './ComponentCatalog';
-import { HealthScreen, SleepScreen, WalletScreen } from './screens';
+import { HealthScreen, SleepScreen, WalletScreen, MobileViewContext } from './screens';
 import { ThemeControls } from './ThemeControls';
 
 const destinations = {
@@ -16,10 +16,62 @@ const destinations = {
 type Destination = keyof typeof destinations;
 const links: Destination[] = ['health', 'wallet', 'sleep', 'catalog'];
 
+function MobileDeviceFrame({ children }: { children: ReactNode }) {
+  const theme = useTheme();
+  const { colors } = theme;
+  const isDark = theme.mode === 'dark';
+
+  return (
+    <View style={styles.deviceWrapper}>
+      <View
+        style={[
+          styles.deviceBezel,
+          {
+            borderColor: isDark ? '#334155' : '#0f172a',
+            backgroundColor: colors.canvas,
+          },
+        ]}
+      >
+        {/* Barra superior de estado / Dynamic Island simulada */}
+        <View style={styles.deviceStatusBar}>
+          <Text variant="caption" style={styles.deviceTime}>9:41</Text>
+          <View style={styles.dynamicIsland} />
+          <View style={styles.deviceStatusIcons}>
+            <Wifi size={13} strokeWidth={2.4} color={colors.text} />
+            <Battery size={13} strokeWidth={2.4} color={colors.text} />
+          </View>
+        </View>
+
+        {/* Contenido scrolleable dentro del teléfono */}
+        <ScrollView
+          style={styles.deviceScreenScroll}
+          contentContainerStyle={styles.deviceScreenContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <MobileViewContext.Provider value={true}>
+            {children}
+          </MobileViewContext.Provider>
+        </ScrollView>
+
+        {/* Indicador inferior (Home bar) */}
+        <View style={styles.deviceHomeBar}>
+          <View
+            style={[
+              styles.deviceHomeIndicator,
+              { backgroundColor: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.22)' },
+            ]}
+          />
+        </View>
+      </View>
+    </View>
+  );
+}
+
 function Laboratory({ onPalette, onMode }: {
   onPalette: (palette: PaletteName) => void; onMode: (mode: Mode) => void;
 }) {
   const [page, setPage] = useState<Destination>('health');
+  const [viewMode, setViewMode] = useState<'mobile' | 'responsive'>('mobile');
   const theme = useTheme();
   const { colors, action } = theme;
   const desktop = useWindowDimensions().width >= 900;
@@ -85,12 +137,52 @@ function Laboratory({ onPalette, onMode }: {
             <View style={[styles.titleBlock, { borderColor: colors.border }]}>
               <View style={styles.headingRow}>
                 <Text variant="caption" tone="accent" style={styles.overline}>{page === 'catalog' ? 'CATÁLOGO' : 'PANTALLA DEMO'} / {code}</Text>
-                <Badge label={paletteNames[theme.palette] + ' · ' + (theme.mode === 'light' ? 'Claro' : 'Oscuro')} tone="accent" />
+                <View style={styles.headingControls}>
+                  {desktop && (
+                    <View style={[styles.viewportToggle, { backgroundColor: colors.mutedSurface, borderColor: colors.border }]}>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel="Vista móvil de 390px"
+                        onPress={() => setViewMode('mobile')}
+                        style={[
+                          styles.viewportButton,
+                          viewMode === 'mobile' && { backgroundColor: colors.surface, borderColor: colors.border },
+                        ]}
+                      >
+                        <Smartphone size={13} color={viewMode === 'mobile' ? action.accentText : colors.mutedText} />
+                        <Text variant="caption" tone={viewMode === 'mobile' ? 'accent' : 'muted'} style={styles.viewportText}>
+                          Móvil
+                        </Text>
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel="Vista expandida"
+                        onPress={() => setViewMode('responsive')}
+                        style={[
+                          styles.viewportButton,
+                          viewMode === 'responsive' && { backgroundColor: colors.surface, borderColor: colors.border },
+                        ]}
+                      >
+                        <Monitor size={13} color={viewMode === 'responsive' ? action.accentText : colors.mutedText} />
+                        <Text variant="caption" tone={viewMode === 'responsive' ? 'accent' : 'muted'} style={styles.viewportText}>
+                          Expandido
+                        </Text>
+                      </Pressable>
+                    </View>
+                  )}
+                  <Badge label={paletteNames[theme.palette] + ' · ' + (theme.mode === 'light' ? 'Claro' : 'Oscuro')} tone="accent" />
+                </View>
               </View>
               <Text accessibilityRole="header" variant="display">{title}</Text>
               <Text tone="muted">{subtitle}</Text>
             </View>
-            <Screen />
+            {desktop && viewMode === 'mobile' ? (
+              <MobileDeviceFrame>
+                <Screen />
+              </MobileDeviceFrame>
+            ) : (
+              <Screen />
+            )}
             <Text variant="caption" tone="muted">{page === 'catalog' ? 'JDL Native DS · Catálogo visual' : 'JDL Native DS · Datos de ejemplo'}</Text>
           </View>
         </ScrollView>
@@ -160,4 +252,37 @@ const styles = StyleSheet.create({
   contentDesktop: { alignSelf: 'center', maxWidth: 850 },
   titleBlock: { borderBottomWidth: 1, paddingBottom: 15, gap: 4 },
   headingRow: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 6 },
+  headingControls: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  viewportToggle: { flexDirection: 'row', padding: 2, borderRadius: 10, borderWidth: 1, gap: 2 },
+  viewportButton: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 8, borderWidth: 1, borderColor: 'transparent' },
+  viewportText: { fontWeight: '600' },
+  deviceWrapper: { width: '100%', alignItems: 'center', paddingVertical: 14 },
+  deviceBezel: {
+    width: 390,
+    maxWidth: '100%',
+    height: 780,
+    borderRadius: 48,
+    borderWidth: 9,
+    overflow: 'hidden',
+    shadowOffset: { width: 0, height: 18 },
+    shadowOpacity: 0.22,
+    shadowRadius: 32,
+    elevation: 14,
+  },
+  deviceStatusBar: {
+    height: 42,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 22,
+    paddingTop: 4,
+    zIndex: 10,
+  },
+  deviceTime: { fontSize: 13, fontWeight: '700', letterSpacing: -0.2 },
+  dynamicIsland: { width: 96, height: 22, borderRadius: 11, backgroundColor: '#000000' },
+  deviceStatusIcons: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  deviceScreenScroll: { flex: 1 },
+  deviceScreenContent: { padding: 18, paddingBottom: 28, gap: 16 },
+  deviceHomeBar: { height: 18, alignItems: 'center', justifyContent: 'center' },
+  deviceHomeIndicator: { width: 126, height: 4, borderRadius: 2 },
 });

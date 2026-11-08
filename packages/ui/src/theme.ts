@@ -48,8 +48,58 @@ const palettes = {
 } satisfies Record<PaletteName, Record<Mode, PaletteColors>>;
 
 const foundations = {
-  spacing: { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 },
-  radius: { control: 14, card: 22, pill: 999 },
+  spacing: {
+    xxs: 2,
+    xs: 4,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 24,
+    xxl: 32,
+    '3xl': 48,
+    '4xl': 64,
+  },
+  radius: {
+    none: 0,
+    xs: 4,
+    sm: 8,
+    md: 12,
+    control: 14,
+    card: 22,
+    pill: 999,
+  },
+  sizes: {
+    touchTarget: 44,
+    icon: {
+      xs: 14,
+      sm: 18,
+      md: 22,
+      lg: 28,
+      xl: 40,
+      hero: 56,
+    },
+    control: {
+      sm: 36,
+      md: 44,
+      lg: 52,
+    },
+  },
+  layout: {
+    gutter: {
+      compact: 16,
+      regular: 24,
+      expanded: 32,
+    },
+    maxWidth: {
+      content: 850,
+      modal: 480,
+      card: 380,
+    },
+    breakpoints: {
+      compact: 600,
+      desktop: 900,
+    },
+  },
   typography: {
     display: { fontSize: 36, lineHeight: 42, fontWeight: '700', letterSpacing: -1.5 },
     title: { fontSize: 25, lineHeight: 31, fontWeight: '700', letterSpacing: -0.7 },
@@ -77,3 +127,11 @@ export function createTheme(palette: PaletteName, mode: Mode) {
 
 export type Theme = ReturnType<typeof createTheme>;
 export type TypographyVariant = keyof Theme['typography'];
+export type SpacingToken = keyof Theme['spacing'];
+export type RadiusToken = keyof Theme['radius'];
+export type IconSizeToken = keyof Theme['sizes']['icon'];
+export type ControlSizeToken = keyof Theme['sizes']['control'];
+export type LayoutGutterToken = keyof Theme['layout']['gutter'];
+export type LayoutMaxWidthToken = keyof Theme['layout']['maxWidth'];
+export type BreakpointToken = keyof Theme['layout']['breakpoints'];
+

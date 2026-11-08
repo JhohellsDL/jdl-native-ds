@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 import { StyleSheet, Switch, useWindowDimensions, View } from 'react-native';
 import {
   Activity, ArrowDownLeft, ArrowRight, ArrowUpRight, CalendarDays, Clock3, CreditCard, Eye, EyeOff,
@@ -7,6 +7,8 @@ import {
 import Svg, { Circle, Path, Defs, LinearGradient as SvgLinearGradient, Stop, Rect } from 'react-native-svg';
 import { Badge, Button, Card, IconButton, MetricCard, Text, TextField, useTheme } from '@jdl/native-ds';
 
+export const MobileViewContext = createContext<boolean>(false);
+
 const iconSize = 17;
 const white = '#FFFFFF';
 
@@ -14,7 +16,8 @@ function Feature({ eyebrow, title, detail, symbol, children }: {
   eyebrow: string; title: string; detail: string; symbol: ReactNode; children?: ReactNode;
 }) {
   const { feature, radius } = useTheme();
-  const compact = useWindowDimensions().width < 600;
+  const isMobileFrame = useContext(MobileViewContext);
+  const compact = isMobileFrame || useWindowDimensions().width < 600;
   const onFeature = { color: feature.text };
 
   return (
