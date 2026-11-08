@@ -1,11 +1,10 @@
 import { useState, type ReactNode } from 'react';
 import { StyleSheet, Switch, useWindowDimensions, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import {
   Activity, ArrowDownLeft, ArrowRight, ArrowUpRight, CalendarDays, Clock3, CreditCard, Eye, EyeOff,
   FlaskConical, HeartPulse, Moon, Search, ShieldPlus, ShoppingBag, Sun, Wallet,
 } from 'lucide-react-native';
-import Svg, { Circle, Path } from 'react-native-svg';
+import Svg, { Circle, Path, Defs, LinearGradient as SvgLinearGradient, Stop, Rect } from 'react-native-svg';
 import { Badge, Button, Card, IconButton, MetricCard, Text, TextField, useTheme } from '@jdl/native-ds';
 
 const iconSize = 17;
@@ -19,12 +18,29 @@ function Feature({ eyebrow, title, detail, symbol, children }: {
   const onFeature = { color: feature.text };
 
   return (
-    <LinearGradient
-      colors={feature.gradient}
-      start={{ x: 0.03, y: 0.12 }}
-      end={{ x: 1, y: 0.94 }}
-      style={[styles.feature, { borderRadius: radius.card, padding: compact ? 22 : 28 }]}
+    <View
+      style={[
+        styles.feature,
+        {
+          borderRadius: radius.card,
+          padding: compact ? 22 : 28,
+          backgroundColor: feature.gradient[0],
+          overflow: 'hidden',
+          position: 'relative',
+        },
+      ]}
     >
+      <View style={[StyleSheet.absoluteFill, { overflow: 'hidden', borderRadius: radius.card }]} pointerEvents="none">
+        <Svg width="100%" height="100%">
+          <Defs>
+            <SvgLinearGradient id="featureGrad" x1="3%" y1="12%" x2="100%" y2="94%">
+              <Stop offset="0" stopColor={feature.gradient[0]} />
+              <Stop offset="1" stopColor={feature.gradient[1] ?? feature.gradient[0]} />
+            </SvgLinearGradient>
+          </Defs>
+          <Rect width="100%" height="100%" fill="url(#featureGrad)" />
+        </Svg>
+      </View>
       <View pointerEvents="none" accessible={false} style={[styles.orbit, compact && styles.orbitCompact]}>
         <Svg width={292} height={234} viewBox="0 0 292 234">
           <Circle cx={150} cy={120} r={104} stroke={white} strokeOpacity={0.14} fill="none" />
@@ -42,7 +58,7 @@ function Feature({ eyebrow, title, detail, symbol, children }: {
         <Text style={onFeature}>{detail}</Text>
         {children && <View style={styles.featureActions}>{children}</View>}
       </View>
-    </LinearGradient>
+    </View>
   );
 }
 

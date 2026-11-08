@@ -1,93 +1,110 @@
 # JDL Native DS
 
-Sistema de diseño personal para React Native y TypeScript. El repositorio contiene un paquete de UI reutilizable (`@jdl/native-ds`), un laboratorio interactivo y un Storybook nativo.
+Sistema de diseño agnóstico y de alto rendimiento para **React Native** y **TypeScript**.
 
-## Arranque rápido
+El repositorio contiene:
+* **`@jdl/native-ds`**: Paquete de UI puro, compilado a JavaScript estándar (`dist/`) con tipado estricto `.d.ts`. Cero dependencia de Expo.
+* **Laboratorio interactivo (Vite + React Native Web)**: Entorno ultraligero que inicia en menos de un segundo para previsualizar componentes, demos y tokens en tiempo real.
+* **Suite de contrastes y accesibilidad**: Pruebas automáticas de ratio de contraste WCAG para los diez temas (5 paletas × 2 modos).
+
+---
+
+## 🚀 Arranque rápido del laboratorio
 
 Usa Node.js 22 LTS o superior y npm. Desde la raíz del repositorio:
 
 ```bash
-npm ci
-npm run web
+npm install
+npm run dev
 ```
 
-Abre la dirección que muestra Expo. Elige una pantalla o entra a **Componentes**. Cambia la paleta y la apariencia desde el selector para ver el resultado en vivo.
+Abre automáticamente en `http://localhost:5173`. Podrás explorar el catálogo completo de componentes y las pantallas interactivas de demostración (Salud, Billetera, Descanso) con cambio dinámico de tema y modo (Claro / Oscuro).
 
-| Comando | Qué abre |
+| Comando | Acción |
 | --- | --- |
-| `npm run web` | Laboratorio en navegador |
-| `npm run android` | Laboratorio en Android |
-| `npm run ios` | Laboratorio en el simulador de iOS, en macOS |
-| `npm run storybook:web` | Storybook en navegador |
-| `npm run storybook:android` | Storybook en Android |
-| `npm run storybook:ios` | Storybook en el simulador de iOS, en macOS |
+| `npm run dev` / `npm start` | Inicia el laboratorio web con recarga instantánea (< 1s) |
+| `npm run build` | Compila la librería `@jdl/native-ds` a `packages/ui/dist` |
+| `npm run build:lab` | Genera el bundle de producción web del laboratorio en `dist/` |
+| `npm run check:themes` | Ejecuta la suite de verificación de contrastes en terminal |
+| `npm run typecheck` | Comprueba tipos con TypeScript en todo el monorepo |
 
-El laboratorio utiliza Expo SDK 54. En móvil puedes usar una versión de Expo Go compatible con ese SDK o generar una build local con `npx expo run:android` o `npx expo run:ios`. Para ejecutar Storybook en una build local ya instalada, levanta el servidor con el script de Storybook de esa plataforma y abre la app contra ese servidor. Android requiere el entorno de Android Studio para compilar y iOS requiere macOS con Xcode.
+---
 
-## Qué puedes probar
+## 📦 Cómo usar la librería en tu aplicación
 
-| Demo | Interacciones |
-| --- | --- |
-| **Salud** | Filtrar servicios, elegir uno y ver la selección en la tarjeta de cita |
-| **Billetera** | Ocultar el saldo, mostrarlo y abrir acciones de envío o recepción de ejemplo |
-| **Descanso** | Cambiar entre noche y semana y activar o desactivar la alarma de ejemplo |
-| **Componentes** | Comparar tokens, variantes de botones, estado de carga, campo con error y etiquetas de estado |
+El paquete `@jdl/native-ds` es **100% agnóstico**: funciona en proyectos de **React Native CLI (Bare)**, **Expo**, **Next.js** o **React Native Web**.
 
-En Storybook, abre **Componentes / Button / Interactivo** para ajustar tamaño, variante, texto y estados en **Controls**. El selector dentro de la historia aplica el tema a la vista previa. Las tres pantallas están en **Pantallas / Demos**. Los datos y las interacciones de las pantallas son locales.
+### 1. Empaquetar o instalar
 
-## Estructura
-
-| Ruta | Responsabilidad |
-| --- | --- |
-| `packages/ui/src/theme.ts` | Cinco paletas con variantes claro y oscuro, tokens semánticos y escala tipográfica |
-| `packages/ui/src/` | Proveedor y componentes públicos |
-| `src/` | Laboratorio, selector de tema y pantallas de ejemplo |
-| `.rnstorybook/` | Configuración, decorador temático e historias |
-| `checks/` | Comprobaciones de contraste para los diez temas |
-
-El kit exporta `Text`, `Button`, `IconButton`, `TextField`, `Card`, `Badge` y `MetricCard`. Todos leen los tokens de `ThemeProvider`. Por ejemplo, el botón principal utiliza `action.primary` y `action.onPrimary`. Las cinco paletas definen esos mismos roles. La tipografía, los radios y el espaciado comparten un perfil minimalista.
-
-Para agregar otra paleta, declara un identificador en `paletteNames` y completa sus dos modos en `palettes`. Los selectores y las pruebas incorporan la nueva entrada. Agrega una variante si cambia el énfasis o el tamaño de un componente. Separa el componente si cambia su función o su contrato de interacción.
-
-## Usar el paquete en otra app
-
-Puedes generar un tarball local desde este repositorio:
+Para generar un tarball local desde el monorepo:
 
 ```bash
+npm run build
 npm pack --workspace @jdl/native-ds
 ```
 
-En la raíz de la otra app React Native, instala el tarball con su ruta real:
+En la app que consumirá el diseño:
 
 ```bash
 npm install /ruta/a/jdl-native-ds-0.1.0.tgz
+# o cuando esté publicado en npm:
+# npm install @jdl/native-ds
 ```
 
-Envuelve la raíz de la app con el proveedor:
+### 2. Implementación
+
+Envuelve la aplicación con `ThemeProvider`:
 
 ```tsx
-import { Button, ThemeProvider } from '@jdl/native-ds';
+import React from 'react';
+import { ThemeProvider, Button, Card, Text } from '@jdl/native-ds';
 
 export default function App() {
   return (
-    <ThemeProvider palette="iris" mode="system">
-      <Button label="Continuar" onPress={() => console.log('Continuar')} />
+    <ThemeProvider palette="cobalt" mode="system">
+      <Card tone="surface">
+        <Text variant="title">Bienvenido a JDL Native DS</Text>
+        <Button label="Comenzar" onPress={() => console.log('Presionado')} />
+      </Card>
     </ThemeProvider>
   );
 }
 ```
 
-`mode` acepta `light`, `dark` y `system`. El paquete publica código fuente TypeScript para que Metro lo transpile. Expo, Storybook, los íconos y los gradientes son dependencias del laboratorio. El paquete de UI utiliza React y React Native.
+---
 
-## Verificación local
+## 🏗️ Estructura del repositorio
 
-```bash
-npm run typecheck
-npm run check:themes
-npm run build:web
-npm run build:storybook:web
+```text
+jdl-native-ds/
+├── packages/
+│   └── ui/                     # Librería @jdl/native-ds
+│       ├── dist/               # Salida compilada (JS plano + .d.ts) para React Native CLI
+│       ├── src/                # Código fuente (TypeScript)
+│       │   ├── theme.ts        # 5 paletas (Cobalt, Iris, Rose, Amber, Graphite), tokens y tipografía
+│       │   ├── ThemeProvider.tsx # Contexto y hook useTheme()
+│       │   ├── Buttons.tsx     # Button, IconButton
+│       │   ├── Surfaces.tsx    # Card, Badge, MetricCard
+│       │   ├── Text.tsx        # Tipografía con roles semánticos
+│       │   └── TextField.tsx   # Input de texto con validación y estados
+│       └── tsconfig.json       # Configuración de compilación del paquete
+├── src/                        # Laboratorio interactivo (React Native Web)
+│   ├── App.tsx                 # Shell del laboratorio y navegación
+│   ├── ComponentCatalog.tsx    # Catálogo visual de tokens y componentes
+│   └── screens.tsx             # Pantallas de demostración
+├── checks/                     # Pruebas de contraste y accesibilidad WCAG
+└── vite.config.ts              # Configuración ultraligera de Vite
 ```
 
-Las exportaciones estáticas quedan en `dist/` y `dist-storybook/`. Para abrirlas localmente, sirve la carpeta por HTTP, por ejemplo con `python3 -m http.server 8080 --directory dist`.
+---
 
-[Documentación de Storybook para React Native](https://storybookjs.github.io/react-native/docs/intro/getting-started/)
+## 🎨 Paletas incluidas
+
+El sistema cuenta con 5 paletas integradas:
+* **Cobalt** (Azul profundo de alta tecnología)
+* **Iris** (Violeta / Indigo elegante)
+* **Rose** (Tonos cálidos y vibrantes)
+* **Amber** (Tonos dorados / energéticos)
+* **Graphite** (Monocromático sobrio y minimalista)
+
+Cada paleta implementa automáticamente los modos `light` y `dark` validados por los tests de contraste.

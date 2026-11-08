@@ -1,7 +1,6 @@
 import { useState, type ComponentType } from 'react';
-import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Pressable, ScrollView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView, initialWindowMetrics } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
 import { ArrowUpRight, Component, HeartPulse, Layers3, Moon, Wallet, type LucideIcon } from 'lucide-react-native';
 import { Badge, Text, ThemeProvider, paletteNames, useTheme, type Mode, type PaletteName } from '@jdl/native-ds';
 import { ComponentCatalog } from './ComponentCatalog';
@@ -56,7 +55,7 @@ function Laboratory({ onPalette, onMode }: {
 
   return (
     <SafeAreaView style={[styles.app, { backgroundColor: colors.canvas }]}>
-      <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+      <StatusBar barStyle={theme.mode === 'dark' ? 'light-content' : 'dark-content'} />
       <View style={styles.shell}>
         {desktop && (
           <ScrollView style={[styles.sidebar, { backgroundColor: colors.surface, borderColor: colors.border }]}
