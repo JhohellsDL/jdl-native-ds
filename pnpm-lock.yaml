@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      '@jdl/native-ds':
+      '@jhohellsdl/native-ds':
         specifier: workspace:*
         version: link:packages/ui
       lucide-react-native:

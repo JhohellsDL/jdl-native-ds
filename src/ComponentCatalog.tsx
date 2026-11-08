@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ArrowRight, Layers3, Search, Sparkles } from 'lucide-react-native';
-import { Badge, Button, Card, IconButton, MetricCard, Text, TextField, useTheme } from '@jdl/native-ds';
+import { Badge, Button, Card, IconButton, MetricCard, Text, TextField, useTheme } from '@jhohellsdl/native-ds';
 
 export function ComponentCatalog() {
   const { colors, action, radius, feature } = useTheme();

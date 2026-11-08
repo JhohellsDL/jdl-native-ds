@@ -1,15 +1,16 @@
 import { useState, Component as ReactComponent, type ComponentType, type ReactNode } from 'react';
 import { Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { ArrowUpRight, Battery, Component, HeartPulse, Layers3, Monitor, Moon, Smartphone, Wallet, Wifi, type LucideIcon } from 'lucide-react-native';
-import { Badge, Text, ThemeProvider, paletteNames, useTheme, type Mode, type PaletteName } from '@jdl/native-ds';
+import { Badge, Text, ThemeProvider, paletteNames, useTheme, type Mode, type PaletteName } from '@jhohellsdl/native-ds';
 import { ComponentCatalog } from './ComponentCatalog';
 import { HealthScreen, SleepScreen, WalletScreen, MobileViewContext } from './screens';
 import { ThemeControls } from './ThemeControls';
+import { SleepScreen2 } from './screens-test/SleepScreen2';
 
 const destinations = {
   health: { title: 'Salud', subtitle: 'Búsqueda, accesos de servicio y próximas citas.', icon: HeartPulse, Screen: HealthScreen, code: '01' },
   wallet: { title: 'Billetera', subtitle: 'Balance, acciones rápidas y movimientos recientes.', icon: Wallet, Screen: WalletScreen, code: '02' },
-  sleep: { title: 'Descanso', subtitle: 'Métricas de sueño, actividad y alarma.', icon: Moon, Screen: SleepScreen, code: '03' },
+  sleep: { title: 'Descanso', subtitle: 'Métricas de sueño, actividad y alarma.', icon: Moon, Screen: SleepScreen2, code: '03' },
   catalog: { title: 'Componentes', subtitle: 'Tokens y estados de las piezas que componen las demos.', icon: Component, Screen: ComponentCatalog, code: 'UI' },
 } satisfies Record<string, { title: string; subtitle: string; icon: LucideIcon; Screen: ComponentType; code: string }>;
 

@@ -11,7 +11,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@jhohellsdl/native-ds": ["./packages/ui/src"],
+      "@jdl/native-ds": ["./packages/ui/src"]
+    }
   },
   "include": [
     "src/**/*",

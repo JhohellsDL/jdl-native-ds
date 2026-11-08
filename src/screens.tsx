@@ -5,7 +5,7 @@ import {
   FlaskConical, HeartPulse, Moon, Search, ShieldPlus, ShoppingBag, Sun, Wallet,
 } from 'lucide-react-native';
 import Svg, { Circle, Path, Defs, LinearGradient as SvgLinearGradient, Stop, Rect } from 'react-native-svg';
-import { Badge, Button, Card, IconButton, MetricCard, Text, TextField, useTheme } from '@jdl/native-ds';
+import { Badge, Button, Card, IconButton, MetricCard, Text, TextField, useTheme } from '@jhohellsdl/native-ds';
 
 export const MobileViewContext = createContext<boolean>(false);
 

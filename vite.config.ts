@@ -15,12 +15,12 @@ export default defineConfig({
         replacement: path.resolve(__dirname, 'src/shims/codegenNativeComponent.js'),
       },
       {
-        find: 'react-native-svg',
-        replacement: 'react-native-svg/lib/module/ReactNativeSVG.web.js',
-      },
-      {
         find: /^react-native$/,
         replacement: path.resolve(__dirname, 'src/shims/reactNativeWeb.js'),
+      },
+      {
+        find: '@jhohellsdl/native-ds',
+        replacement: path.resolve(__dirname, 'packages/ui/src'),
       },
       {
         find: '@jdl/native-ds',
@@ -33,11 +33,4 @@ export default defineConfig({
     ],
     extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.tsx', '.ts', '.jsx', '.js'],
   },
-  optimizeDeps: {
-    include: ['react-native-web', 'lucide-react-native'],
-    esbuildOptions: {
-      resolveExtensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.tsx', '.ts', '.jsx', '.js'],
-    },
-  },
 });
-

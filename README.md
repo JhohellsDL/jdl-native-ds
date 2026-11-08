@@ -3,7 +3,7 @@
 Sistema de diseño agnóstico y de alto rendimiento para **React Native** y **TypeScript**.
 
 El repositorio contiene:
-* **`@jdl/native-ds`**: Paquete de UI puro, compilado a JavaScript estándar (`dist/`) con tipado estricto `.d.ts`. Cero dependencia de Expo.
+* **`@jhohellsdl/native-ds`**: Paquete de UI puro, compilado a JavaScript estándar (`dist/`) con tipado estricto `.d.ts`. Cero dependencia de Expo.
 * **Laboratorio interactivo (Vite + React Native Web)**: Entorno ultraligero que inicia en menos de un segundo para previsualizar componentes, demos y tokens en tiempo real.
 * **Suite de contrastes y accesibilidad**: Pruebas automáticas de ratio de contraste WCAG para los diez temas (5 paletas × 2 modos).
 
@@ -23,7 +23,7 @@ Abre automáticamente en `http://localhost:5173`. Podrás explorar el catálogo 
 | Comando | Acción |
 | --- | --- |
 | `pnpm dev` / `pnpm start` | Inicia el laboratorio web con recarga instantánea (< 1s) |
-| `pnpm build` | Compila la librería `@jdl/native-ds` a `packages/ui/dist` |
+| `pnpm build` | Compila la librería `@jhohellsdl/native-ds` a `packages/ui/dist` |
 | `pnpm build:lab` | Genera el bundle de producción web del laboratorio en `dist/` |
 | `pnpm check:themes` | Ejecuta la suite de verificación de contrastes en terminal |
 | `pnpm typecheck` | Comprueba tipos con TypeScript en todo el monorepo |
@@ -32,7 +32,7 @@ Abre automáticamente en `http://localhost:5173`. Podrás explorar el catálogo 
 
 ## 📦 Cómo usar la librería en tu aplicación
 
-El paquete `@jdl/native-ds` es **100% agnóstico**: funciona en proyectos de **React Native CLI (Bare)**, **Expo**, **Next.js** o **React Native Web**.
+El paquete `@jhohellsdl/native-ds` es **100% agnóstico**: funciona en proyectos de **React Native CLI (Bare)**, **Expo**, **Next.js** o **React Native Web**.
 
 ### 1. Empaquetar o instalar
 
@@ -40,17 +40,17 @@ Para generar un tarball local desde el monorepo:
 
 ```bash
 pnpm build
-pnpm --filter @jdl/native-ds pack
+pnpm --filter @jhohellsdl/native-ds pack
 ```
 
 En la app que consumirá el diseño:
 
 ```bash
-pnpm add /ruta/a/jdl-native-ds-0.1.0.tgz
-# o con npm:
-# npm install /ruta/a/jdl-native-ds-0.1.0.tgz
-# o cuando esté publicado en npm:
-# pnpm add @jdl/native-ds
+# Instalación directa desde GitHub Packages:
+pnpm add @jhohellsdl/native-ds
+
+# O mediante tarball local:
+pnpm add /ruta/a/jhohellsdl-native-ds-0.1.0.tgz
 ```
 
 ### 2. Implementación
@@ -59,7 +59,7 @@ Envuelve la aplicación con `ThemeProvider`:
 
 ```tsx
 import React from 'react';
-import { ThemeProvider, Button, Card, Text } from '@jdl/native-ds';
+import { ThemeProvider, Button, Card, Text } from '@jhohellsdl/native-ds';
 
 export default function App() {
   return (

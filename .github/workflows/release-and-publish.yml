@@ -1,0 +1,53 @@
+name: Release & Publish Package
+
+on:
+  push:
+    tags:
+      - 'v*' # Solo se activa explícitamente al empujar un tag como v0.1.0
+
+jobs:
+  release-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Para crear el GitHub Release oficial
+      packages: write # Para publicar el paquete en GitHub Packages
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.16.1
+
+      - name: Setup Node.js with GitHub Packages registry
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@jhohellsdl'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run verification (tests & typecheck)
+        run: |
+          pnpm check:themes
+          pnpm typecheck
+
+      - name: Build UI library
+        run: pnpm build
+
+      - name: Publish to GitHub Packages
+        run: pnpm --filter @jhohellsdl/native-ds publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          name: Release ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

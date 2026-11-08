@@ -9,15 +9,15 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "pnpm --filter @jdl/native-ds build",
-    "build:ui": "pnpm --filter @jdl/native-ds build",
-    "pack:ui": "pnpm --filter @jdl/native-ds pack",
+    "build": "pnpm --filter @jhohellsdl/native-ds build",
+    "build:ui": "pnpm --filter @jhohellsdl/native-ds build",
+    "pack:ui": "pnpm --filter @jhohellsdl/native-ds pack",
     "build:lab": "vite build",
     "check:themes": "node --experimental-strip-types --test checks/themes.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@jdl/native-ds": "workspace:*",
+    "@jhohellsdl/native-ds": "workspace:*",
     "lucide-react-native": "1.70.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",

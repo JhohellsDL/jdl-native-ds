@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Check, Moon, Sun } from 'lucide-react-native';
-import { createTheme, paletteNames, Text, useTheme, type Mode, type PaletteName } from '@jdl/native-ds';
+import { createTheme, paletteNames, Text, useTheme, type Mode, type PaletteName } from '@jhohellsdl/native-ds';
 
 export const paletteIds = Object.keys(paletteNames) as PaletteName[];
 

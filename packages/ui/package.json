@@ -1,5 +1,5 @@
 {
-  "name": "@jdl/native-ds",
+  "name": "@jhohellsdl/native-ds",
   "version": "0.1.0",
   "description": "Sistema de diseño temático para React Native",
   "main": "./dist/index.js",
@@ -11,6 +11,13 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepack": "pnpm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JhohellsDL/jdl-native-ds.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "peerDependencies": {
     "react": ">=18",

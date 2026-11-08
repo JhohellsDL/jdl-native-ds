@@ -4,3 +4,5 @@ packages/*/dist/
 *.tgz
 .DS_Store
 *.log
+.agents/
+.ai-kit/
