@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { useContext, useState, type ReactNode } from 'react';
 import { StyleSheet, Switch, useWindowDimensions, View } from 'react-native';
 import {
     Activity, Clock3,
@@ -6,8 +6,7 @@ import {
 } from 'lucide-react-native';
 import Svg, { Circle, Path, Defs, LinearGradient as SvgLinearGradient, Stop, Rect } from 'react-native-svg';
 import { Button, Card, MetricCard, Text, useTheme } from '@jhohellsdl/native-ds';
-
-export const MobileViewContext = createContext<boolean>(false);
+import { MobileViewContext } from '../screens';
 
 const white = '#FFFFFF';
 
